@@ -12,9 +12,11 @@ app.listen(port, () => console.log(`Executando na porta ${port}`));
 
 /*----------MIDLEWARES----------*/
 function verifyId(req, res, next) {
-  if (!req.params.id) {
-    res.status(400).json({ error: 'Id is required.' });
+  const project = DB.find(req.params.id)
+  if (!project) {
+    res.status(400).json({ error: 'Project do not exist' });
   }
+  req.project = project;
   return next();
 }
 
@@ -36,12 +38,12 @@ app.get('/projects', (req, res) => {
   res.json(DB.find());
 });
 
-app.put('/projects/:id', verifyId, verifyParams, (req, res) => {
-  const { id } = req.params;
+app.put('/projects/:id', verifyId, (req, res) => {
   const { title } = req.body;
+  const project = req.project;
 
-  const newProject = { title, id: Number(id), tasks: [] };
-  res.json(DB.save(newProject));
+  project.title = title;
+  res.json(DB.save(project));
 });
 
 app.delete('/projects/:id', verifyId, (req, res) => {
