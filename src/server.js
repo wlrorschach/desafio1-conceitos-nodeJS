@@ -57,7 +57,6 @@ app.post('/projects/:id', verifyId, (req, res) => {
 
   const projectOld = DB.find(id);
 
-  console.log(projectOld);
   projectOld.tasks.push(...tasks);
 
   res.json(DB.save(projectOld));
