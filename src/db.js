@@ -27,14 +27,20 @@ function exclude(id) {
 }
 
 function find(id) {
+
+  console.log('Dentro do metodo find');
+  console.log(`Lista de projetos: ${projects}`);
+
   if (!id) {
+    console.log('Entrou no if 1');
     
     return projects;
   }
-  if (projects[id]) {
-    return `Projeto com id ${id} nao encontrado`;
+  if (id && projects[id]) {
+    console.log('Entrou no if 2');
+
+    return projects[id];
   }
-  return projects[id];
 
 }
 

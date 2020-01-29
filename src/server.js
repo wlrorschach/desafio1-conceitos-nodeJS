@@ -9,10 +9,9 @@ app.use(cors());
 app.use(express.json());
 app.listen(port, () => console.log(`Executando na porta ${port}`));
 
-
 /*----------MIDLEWARES----------*/
 function verifyId(req, res, next) {
-  const project = DB.find(req.params.id)
+  const project = DB.find(req.params.id);
   if (!project) {
     res.status(400).json({ error: 'Project do not exist' });
   }
@@ -30,7 +29,7 @@ function verifyParams(req, res, next) {
 /*------------ROTAS------------*/
 app.post('/projects', verifyParams, (req, res) => {
   const { title, id } = req.body;
-  const newProject = { title, id };
+  const newProject = { title, id, tasks: [] };
   res.json(DB.save(newProject));
 });
 
@@ -63,8 +62,6 @@ app.post('/projects/:id', verifyId, (req, res) => {
 
   res.json(DB.save(projectOld));
 });
-
-
 
 
 
